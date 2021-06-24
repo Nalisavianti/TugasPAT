@@ -2,7 +2,7 @@
 include 'config/koneksi.php';
 include 'library/controller.php';
 
-$tabel = 'users';
+$tabel = 'tbl_user';
 @$username = $_POST['user'];
 @$password = $_POST['pass'];
 @$akses = $_POST['akses'];
@@ -26,19 +26,19 @@ if (isset($_POST['login'])) {
   <body style="background-image: url(img/buku.jpg); background-size: cover">
   <div class="container mt-4">
         <div class="card d-inline-flex p-2 bd-highlight position-absolute top-50 start-50 translate-middle" >
-            <div class="card-body" style="width: 30rem">
+            <div class="card-body" style="width: 22rem">
             <h3 class="card-title text-center">Login</h3>
             <form action="" method="POST">
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Username</label>
+                    <label for="exampleFormControlInput1" class="form-label">Username :</label>
                     <input type="text" name="user" class="form-control" id="exampleFormControlInput1" required>
                 </div>
                 <div class="mb-3">
-                    <label for="exampleFormControlInput1" class="form-label">Password</label>
+                    <label for="exampleFormControlInput1" class="form-label">Password :</label>
                     <input type="password" name="pass" class="form-control" id="exampleFormControlInput1"required>
                 </div>
                 <div class="mb-3">
-                    <label>Akses User</label>
+                    <label>Akses User :</label>
                     <select class="form-control input-lg" name="akses" value="akses" required>
                         <option value="" selected disabled>Pilih Akses</option>
                         <option>Admin</option>
@@ -46,7 +46,10 @@ if (isset($_POST['login'])) {
                         <option>Kasir</option>
                     </select>
                 </div>
-                <button class="btn btn-outline-primary" type="submit" name="login" value="LOGIN">Login</button>
+                <div class="d-grid gap-2 mb-4 pt-3">
+                    <button class="btn btn-outline-success" type="submit" name="login" value="LOGIN">Login</button>
+                </div>
+            </form>
             </div>
         </div>
     

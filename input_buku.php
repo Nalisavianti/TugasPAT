@@ -4,7 +4,11 @@ include 'library/controller.php';
 
     $go = new controller();
     $tabel = "tbl_buku";
-    @$field = array('id_buku'=>$_POST['id_buku'],
+    $redirect = "?menu=input_buku";
+    @$where = "id_buku= $_GET[id]";
+
+    if (isset($_POST['simpan'])) {
+        @$field = array('id_buku'=>$_POST['id_buku'],
                 'judul'=>$_POST['judul'],
                 'noisbn'=>$_POST['noisbn'], 
                 'penulis'=>$_POST['penulis'],
@@ -15,25 +19,26 @@ include 'library/controller.php';
                 'harga_jual'=>$_POST['harga_jual'],
                 'ppn'=>$_POST['ppn'],
                 'diskon'=>$_POST['diskon']);
-    $redirect = "?menu=input_buku";
-    @$where = "id_buku= $_GET[id]";
-
-    if (isset($_POST['simpan'])) {
         $go->simpan($con, $tabel, $field, $redirect);
     }
     if (isset($_GET['hapus'])) {
         $go->hapus($con, $tabel, $where, $redirect);
     }
     if (isset($_GET['edit'])) {
-        // $sql = "SELECT id_buku FROM tbl_buku WHERE $where";
-        // $jalan = mysqli_query($con, $sql);
-        // @$edit = mysqli_fetch_assoc($jalan);
         $edit = $go->edit($con, $tabel, $where);
     }
     if (isset($_POST['ubah'])) {
-            // @$field = array('nama_distributor'=>$_POST['nama_distributor'],
-            // 'alamat'=>$_POST['alamat'],
-            // 'telpon'=>$_POST['telpon']);
+        @$field = array('id_buku'=>$_POST['id_buku'],
+                'judul'=>$_POST['judul'],
+                'noisbn'=>$_POST['noisbn'], 
+                'penulis'=>$_POST['penulis'],
+                'penerbit'=>$_POST['penerbit'],
+                'tahun'=>$_POST['tahun'],
+                'stok'=>$_POST['stok'],
+                'harga_pokok'=>$_POST['harga_pokok'],
+                'harga_jual'=>$_POST['harga_jual'],
+                'ppn'=>$_POST['ppn'],
+                'diskon'=>$_POST['diskon']);
         $go->ubah($con, $tabel, $field, $where, $redirect);
         }
 ?>
@@ -99,50 +104,53 @@ include 'library/controller.php';
             </div>
         </div>
         <div style="padding:10px;">
-            <form class="d-flex">
-                <label class="me-3">Pencarian</label>
-                <input class="form-control me-3" type="search" placeholder="Judul Buku/Penulis" aria-label="Search">
-                <button class="btn btn-primary me-2" type="submit">Cari</button>
-                <button class="btn btn-outline-success" type="submit">Refresh</button>
+            <form class="d-flex justify-content-start">
+                <a href="?menu=input_buku" class="btn btn-outline-success" type="submit">Refresh</a>
             </form>
-            <table align="center" border="1" class="mt-4 table table-stripped table-hover bg-white" id="data">
-                <tr>
-                    <th>Kode Buku</th>
-                    <th>Judul Buku</th>
-                    <th>NO ISBN</th>
-                    <th>Penulis</th>
-                    <th>Penerbit</th>
-                    <th>Tahun Terbit</th>
-                    <th>Harga Pokok</th>
-                    <th>Harga Jual</th>
-                    <th>Diskon</th>
-                    <th>Edit</th>
-                    <th>Hapus</th>
-                </tr>
-                <?php
-                    $data = $go->tampil($con, $tabel);
-                    $no = 0;
-                    if($data==""){
-                        echo "<tr><td colspan='4'>No Data</td></tr>";
-                    }else{
-                    foreach($data as $r){
-                    $no++
-                ?>
-                <tr>
-                    <td><?php echo $r['id_buku']?></td>
-                    <td><?php echo $r['judul']?></td>
-                    <td><?php echo $r['noisbn']?></td>
-                    <td><?php echo $r['penulis']?></td>
-                    <td><?php echo $r['penerbit']?></td>
-                    <td><?php echo $r['tahun']?></td>
-                    <td><?php echo $r['harga_pokok']?></td>
-                    <td><?php echo $r['harga_jual']?></td>
-                    <td><?php echo $r['diskon']?></td>
-                    <td><a href="?menu=input_buku&edit&id=<?php echo $r['id_buku']?>" class="btn btn-warning">Edit</a></td>
-                    <td><a href="?menu=input_buku&hapus&id=<?php echo $r['id_buku']?>"class="btn btn-danger" onclick="return confirm('Hapus Data?')">Hapus</a></td>
-                </tr>
-                <?php } } ?>
-            </table>
+            <div class="table-responsive mt-3">
+                <table align="center" border="1" class="mt-4 table table-striped table-hover bg-white" id="tableAll">
+                    <thead>
+                        <tr>
+                            <th>Kode Buku</th>
+                            <th>Judul Buku</th>
+                            <th>NO ISBN</th>
+                            <th>Penulis</th>
+                            <th>Penerbit</th>
+                            <th>Tahun Terbit</th>
+                            <th>Harga Pokok</th>
+                            <th>Harga Jual</th>
+                            <th>Diskon</th>
+                            <th>Edit</th>
+                            <th>Hapus</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                            $data = $go->tampil($con, $tabel);
+                            $no = 0;
+                            if($data==""){
+                                echo "<tr><td colspan='4'>No Data</td></tr>";
+                            }else{
+                            foreach($data as $r){
+                            $no++
+                        ?>
+                        <tr>
+                            <td><?php echo $r['id_buku']?></td>
+                            <td><?php echo $r['judul']?></td>
+                            <td><?php echo $r['noisbn']?></td>
+                            <td><?php echo $r['penulis']?></td>
+                            <td><?php echo $r['penerbit']?></td>
+                            <td><?php echo $r['tahun']?></td>
+                            <td><?php echo $r['harga_pokok']?></td>
+                            <td><?php echo $r['harga_jual']?></td>
+                            <td><?php echo $r['diskon']?></td>
+                            <td><a href="?menu=input_buku&edit&id=<?php echo $r['id_buku']?>"><img src="img/edit.png"></a></td>
+                            <td><a href="?menu=input_buku&hapus&id=<?php echo $r['id_buku']?>" onclick="return confirm('Hapus Data?')"><img src="img/drop.png"></a></td>
+                        </tr>
+                        <?php } } ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </body>

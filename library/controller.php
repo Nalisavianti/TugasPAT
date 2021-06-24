@@ -2,9 +2,9 @@
 
 class controller{
 
-    //fungsi login
     function login($con, $tabel, $username, $password, $akses)
     {
+        @session_start();
         $sql = "SELECT * FROM tbl_user WHERE username = '$username' and password = '$password' and akses = '$akses' ";
         $jalan = mysqli_query($con, $sql);
         $cek = mysqli_num_rows($jalan);
@@ -26,7 +26,7 @@ class controller{
                 $_SESSION['username'] = $username;
                 echo "<script>alert('Selamat Datang $username');document.location.href='kasir.php'</script>";
             }else {
-                echo "<script>alert('Gagal Login. Cek Username & Password Anda !');document.location.href='kasir.php'</script>";
+                echo "<script>alert('Gagal Login. Cek Username & Password Anda !');document.location.href='login.php'</script>";
             }
         }
     }

@@ -1,8 +1,5 @@
 <?php
 include "config/koneksi.php";
-include "library/controller.php";
-
-$go = new controller();
 ?>
 
 <!DOCTYPE html>
@@ -23,24 +20,68 @@ $go = new controller();
             <label for="exampleFormControlInput1" class="form-label fw-bold">Nama Penulis</label>
             <form action="" method="POST" enctype="multipart/form-data">
                 <fieldset class="form-group">
-                    <select class="form-select" id="basicSelect" name="">
-                    <option value="" selected disabled>Pilih Nama Penulis</option>
-                        <?php
-                        $no = 0;
-                        $sql = "SELECT * FROM tbl_buku";
-                        $jalan = mysqli_query($con, $sql);
-                        while($r = mysqli_fetch_assoc($jalan)){
-                            $no++
-                    ?>
-                        <option value="<?php echo $r['id_buku'] ?>"><?php echo $r['penulis']?></option>
-                    <?php } ?>
-                    <?php if ($no == ""){
-                        echo "<tr><td colspan='7'>No Record</td></tr>";
-                    }?>
+                    <select class="form-select" id="basicSelect" name="penulis">
+                        <option value="" selected disabled>Pilih Nama Penulis</option>
+                            <?php
+                            $no = 0;
+                            $sql = "SELECT * FROM tbl_buku GROUP BY penulis";
+                            $jalan = mysqli_query($con, $sql);
+                            while($r = mysqli_fetch_assoc($jalan)){
+                                $no++
+                            ?>
+                        <option value="<?php echo $r['penulis'] ?>"><?php echo $r['penulis']?></option>
+                            <?php } ?>
+                            <?php if ($no == ""){
+                                echo "<tr><td colspan='7'>No Record</td></tr>";
+                            }?>
                     </select>
                 </fieldset>
-                <a href="?menu=HasilFilter_Penulis" class="btn btn-primary mt-3" type="submit" name="lihat" value="lihat">Lihat</a>
+                <input class="btn btn-primary mt-3" type="submit" name="lihat" value="lihat">
             </form>
+
+            <div style="padding: 20px;">
+                <div class="table-responsive mt-3">
+                    <table align="center" border="1" class="mt-4 table table-stripped table-hover bg-white" id="tableAll">
+                        <thead>
+                            <tr>
+                                <th>Kode Buku</th>
+                                <th>Judul Buku</th>
+                                <th>NO ISBN</th>
+                                <th>Penulis</th>
+                                <th>Penerbit</th>
+                                <th>Tahun</th>
+                                <th>Stok</th>
+                                <th>Harga Pokok</th>
+                                <th>Harga Jual</th>
+                                <th>PPN</th>
+                                <th>Diskon</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                if(isset($_POST['lihat'])){
+                                @$penulis = $_POST['penulis'];
+                                $barang = mysqli_query($con,"SELECT * FROM tbl_buku WHERE penulis = '$penulis' ");
+                                while($b = mysqli_fetch_array($barang)){
+                            ?>
+                            <tr>
+                                <td><?php echo $b['id_buku']?></td>
+                                <td><?php echo $b['judul']?></td>
+                                <td><?php echo $b['noisbn']?></td>
+                                <td><?php echo $b['penulis']?></td>
+                                <td><?php echo $b['penerbit']?></td>
+                                <td><?php echo $b['tahun']?></td>
+                                <td><?php echo $b['stok'] ?></td>
+                                <td><?php echo $b['harga_pokok'] ?></td>
+                                <td><?php echo $b['harga_jual'] ?></td>
+                                <td><?php echo $b['ppn']?></td>
+                                <td><?php echo $b['diskon']?>%</td>
+                            </tr>
+                            <?php } } ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
 	    </div>
     </div>
 </body>

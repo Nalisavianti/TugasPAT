@@ -38,38 +38,42 @@ include 'library/controller.php';
                     <button class="btn btn-primary me-2" type="submit">Cetak</button>
                     <button class="btn btn-outline-success" type="submit">Export Excel</button>
                 </form>
-                <div class="table-responsive">
-                    <table align="center" border="1" class="mt-4 table table-stripped table-hover bg-white" id="data">
-                        <tr>
-                            <th>Kode Buku</th>
-                            <th>Judul Buku</th>
-                            <th>NO ISBN</th>
-                            <th>Penulis</th>
-                            <th>Penerbit</th>
-                            <th>Stok</th>
-                            <th>Harga Pokok</th>
-                            <th>Harga Jual</th>
-                            <th>PPN</th>
-                            <th>Diskon</th>
-                        </tr>
-                        <?php
-                            $sql = "SELECT * FROM tbl_buku ";
-                            $jalan = mysqli_query($con, $sql);
-                            while($r = mysqli_fetch_array($jalan)){
-                        ?>
-                        <tr>
-                            <td><?php echo $r['id_buku']?></td>
-                            <td><?php echo $r['judul']?></td>
-                            <td><?php echo $r['noisbn']?></td>
-                            <td><?php echo $r['penulis']?></td>
-                            <td><?php echo $r['penerbit']?></td>
-                            <td><?php echo $r['stok'] ?></td>
-                            <td><?php echo $r['harga_pokok']?></td>
-                            <td><?php echo $r['harga_jual']?></td>
-                            <td><?php echo $r['ppn']?></td>
-                            <td><?php echo $r['diskon']?></td>
-                        </tr>
-                        <?php } ?>
+                <div class="table-responsive mt-3">
+                    <table align="center" border="1" class="mt-4 table table-striped table-hover bg-white" id="tableAll">
+                        <thead>
+                            <tr>
+                                <th>Kode Buku</th>
+                                <th>Judul Buku</th>
+                                <th>NO ISBN</th>
+                                <th>Penulis</th>
+                                <th>Penerbit</th>
+                                <th>Stok</th>
+                                <th>Harga Pokok</th>
+                                <th>Harga Jual</th>
+                                <th>PPN</th>
+                                <th>Diskon</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $sql = "SELECT * FROM tbl_buku ";
+                                $jalan = mysqli_query($con, $sql);
+                                while($r = mysqli_fetch_array($jalan)){
+                            ?>
+                            <tr>
+                                <td><?php echo $r['id_buku']?></td>
+                                <td><?php echo $r['judul']?></td>
+                                <td><?php echo $r['noisbn']?></td>
+                                <td><?php echo $r['penulis']?></td>
+                                <td><?php echo $r['penerbit']?></td>
+                                <td><?php echo $r['stok'] ?></td>
+                                <td><?php echo $r['harga_pokok']?></td>
+                                <td><?php echo $r['harga_jual']?></td>
+                                <td><?php echo $r['ppn']?></td>
+                                <td><?php echo $r['diskon']?></td>
+                            </tr>
+                            <?php } ?>
+                        </tbody>
                     </table>
                 </div>
             </div>
